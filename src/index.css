@@ -1,0 +1,25 @@
+@keyframes cubeMotion {
+  0% {
+    transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
+    opacity: 0.2;
+  }
+  25% {
+    transform: translate3d(50px, -80px, 300px) rotateX(120deg) rotateY(180deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate3d(-80px, 100px, -200px) rotateX(240deg) rotateY(270deg);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translate3d(100px, -50px, 400px) rotateX(300deg) rotateY(330deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotateX(360deg) rotateY(360deg);
+    opacity: 0.3;
+  }
+}
+.animate-cubeMotion {
+  animation: cubeMotion 20s ease-in-out infinite;
+}
