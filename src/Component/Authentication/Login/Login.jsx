@@ -1,94 +1,60 @@
 import React, { use, useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaEyeSlash } from "react-icons/fa";
+import { LuEye } from "react-icons/lu";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../../Context/AuthContext/AuthContext";
 import axios from "axios";
-import { updateProfile } from "firebase/auth";
-import { auth } from "../../../Firebase/Firebase.init";
-import { LuEye } from "react-icons/lu";
-import { FaEyeSlash } from "react-icons/fa";
 
-const Register = () => {
-  const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
-
+const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
 
-  const { user, createUser, googleLogIn } = use(AuthContext);
-  // console.log(user);
+  const { googleSignIn, googleLogIn } = use(AuthContext);
+  const navigate = useNavigate();
 
-  // Sign In using Email Password
-  const handleRegiser = (data) => {
+  // === Dynamic 3D Cubes ===
+  const cubes = Array.from({ length: 50 }).map((_, i) => ({
+    id: i,
+    size: Math.random() * 20 + 10,
+    top: Math.random() * 100,
+    left: Math.random() * 100,
+    delay: Math.random() * 10,
+    depth: Math.random() * 800 - 400,
+    rotateX: Math.random() * 360,
+    rotateY: Math.random() * 360,
+  }));
+
+  //Show Password
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleLogin = (data) => {
     const email = data.email;
     const password = data.password;
-    const profileImage = data.photo[0];
-    // const frameWork = data.framwork;
+    console.log("clicked handle login");
 
-    createUser(email, password)
+    googleSignIn(email, password)
       .then((res) => {
-        // add photo url and display name
-
-        const formData = new FormData();
-        formData.append("image", profileImage);
-
-        axios
-          .post(
-            `https://api.imgbb.com/1/upload?key=3e5c0aba1d1d78e329f5b6f1189bce28`,
-            formData
-          )
-          .then((res) => {
-            console.log(res.data.data.url);
-
-            // now add update profile
-            const userProfile = {
-              displayName: data.name,
-              photoURL: res.data.data.url,
-            };
-            updateProfile(auth.currentUser, userProfile)
-              .then(() => {
-                // send data to the database
-                console.log(data);
-                console.log(user);
-
-                const userInfo = {
-                  name: data.name,
-                  email: data.email,
-                  photoURL: res.data.data.url,
-                  framework: data.framwork,
-                };
-
-                //  users post Apis
-                axios.post("http://localhost:3000/users", userInfo)
-                  .then((res) => {
-                    console.log(res.data);
-                    if (res.data.insertedId) {
-                      navigate("/home");
-                    } else {
-                      navigate("/home"); // user already exists → still allow login
-                    }
-                  });
-              })
-              .catch((error) => {
-                console.log(error.message);
-              });
-          });
+        console.log(res.user);
+        navigate("/home");
       })
       .catch((error) => {
         console.log(error.message);
-        setError("this email is Already used");
+        setError(" email or password is invalid");
       });
-
-    // now send the user info in the database
   };
 
   // Using Google Sign
-  const handleGoogle = () => {
-    // console.log("handle googke button is Clicked")
+
+  const handleGoogleLogin = () => {
+    console.log("google sign in button is clicked");
     googleLogIn()
       .then((res) => {
         console.log(res.user);
@@ -114,23 +80,6 @@ const Register = () => {
       });
   };
 
-  //Show Password
-  const handleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  // === Dynamic 3D Cubes ===
-  const cubes = Array.from({ length: 50 }).map((_, i) => ({
-    id: i,
-    size: Math.random() * 20 + 10,
-    top: Math.random() * 100,
-    left: Math.random() * 100,
-    delay: Math.random() * 10,
-    depth: Math.random() * 800 - 400,
-    rotateX: Math.random() * 360,
-    rotateY: Math.random() * 360,
-  }));
-
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-white">
       {" "}
@@ -153,30 +102,13 @@ const Register = () => {
       </div>
       <div className="relative z-10 bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl rounded-xl w-full max-w-sm p-6 text-white">
         <div className="text-center lg:text-left">
-          <h2 className="text-2xl font-bold mb-4 text-center">
-            Create an Account
-          </h2>
+          <h2 className="text-2xl font-bold mb-4 text-center">WelCome Back</h2>
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <div className="card-body">
-            <form onSubmit={handleSubmit(handleRegiser)}>
+            <form onSubmit={handleSubmit(handleLogin)}>
               <fieldset className="fieldset">
                 {/* Name Field*/}
-                <div>
-                  <label className="block mb-1 text-xs font-medium">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    {...register("name", {
-                      required: true,
-                    })}
-                    placeholder="Enter your name"
-                    className="w-full px-3 py-2 rounded-md bg-white/20 focus:bg-white/30 outline-none border border-white/30 placeholder-gray-200 focus:border-fuchsia-400 transition text-sm"
-                  />
-                </div>
-                {errors.name?.type === "required" && <p>Name is Required</p>}
 
                 {/* Email Field */}
                 <div>
@@ -191,44 +123,12 @@ const Register = () => {
                     className="w-full px-3 py-2 rounded-md bg-white/20 focus:bg-white/30 outline-none border border-white/30 placeholder-gray-200 focus:border-fuchsia-400 transition text-sm"
                   />
                 </div>
+
                 {errors.email?.type === "required" && (
                   <p>email field is Required</p>
                 )}
-                {error && <p> this email is alrready used </p>}
 
                 {/* Photo Url */}
-                <div>
-                  <label className="block mb-1 text-xs font-medium">
-                    Photo URL
-                  </label>
-                  <input
-                    type="file"
-                    name="photo"
-                    {...register("photo", { required: true })}
-                    placeholder="Enter photo URL"
-                    className=" file-input w-full px-3 py-2 rounded-md bg-white/20 focus:bg-white/30 outline-none border border-white/30 placeholder-gray-200 focus:border-fuchsia-400 transition text-sm"
-                  />
-                </div>
-                {errors.photo?.type === "required" && <p>Photo is Required</p>}
-
-                {/* Select Role */}
-                <div>
-                  <label className="block mb-1 text-xs font-medium">
-                    Choose Role
-                  </label>
-                  <select
-                    defaultValue=" choose your Role"
-                    className="select select-info"
-                    {...register("framwork", { required: true })}
-                  >
-                    <option disabled={true}>Choose your Role</option>
-                    <option>borrower</option>
-                    <option>manager </option>
-                  </select>
-                </div>
-                {errors.framwork?.type === "required" && (
-                  <p>Select your Role</p>
-                )}
 
                 {/* password */}
                 <label className="block mb-1 text-xs font-medium">
@@ -253,7 +153,6 @@ const Register = () => {
                     {showPassword ? <FaEyeSlash /> : <LuEye />}
                   </div>
                 </div>
-
                 {errors.password?.type === "required" && (
                   <p>password is fequired</p>
                 )}
@@ -266,9 +165,10 @@ const Register = () => {
                     Character
                   </p>
                 )}
+                {error && <p>{error}</p>}
 
                 <button className="w-full mt-3 py-2 bg-gradient-to-r from-fuchsia-500 to-indigo-500 hover:from-fuchsia-600 hover:to-indigo-600 rounded-md font-semibold text-white text-sm shadow-lg transition transform hover:scale-[1.02]">
-                  Register
+                  Login
                 </button>
               </fieldset>
             </form>
@@ -283,7 +183,7 @@ const Register = () => {
           {/* Google Login Button */}
 
           <button
-            onClick={handleGoogle}
+            onClick={handleGoogleLogin}
             className="flex items-center justify-center gap-2 w-10/12 py-2 bg-white text-gray-800 font-medium rounded-md shadow-md hover:bg-gray-100 transition text-sm -mt-5 mx-auto"
           >
             <img
@@ -295,9 +195,9 @@ const Register = () => {
           </button>
 
           <p className="text-xs text-center mt-5 text-gray-300 pb-5">
-            Already have an account?{" "}
+            Create an New account?{" "}
             <span className="text-fuchsia-400 hover:underline cursor-pointer">
-              <Link to="/login">Login</Link>
+              <Link to="/">signup</Link>
             </span>
           </p>
         </div>
@@ -306,4 +206,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
