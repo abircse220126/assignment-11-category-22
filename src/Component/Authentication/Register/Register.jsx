@@ -1,13 +1,17 @@
 import React, { use, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../../Context/AuthContext/AuthContext";
 import axios from "axios";
 import { updateProfile } from "firebase/auth";
 import { auth } from "../../../Firebase/Firebase.init";
+import { LuEye } from "react-icons/lu";
+import { FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -15,9 +19,10 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const { user, createUser } = use(AuthContext);
-  console.log(user)
+  const { user, createUser, googleLogIn } = use(AuthContext);
+  // console.log(user);
 
+  // Sign In using Email Password
   const handleRegiser = (data) => {
     const email = data.email;
     const password = data.password;
@@ -26,12 +31,13 @@ const Register = () => {
 
     createUser(email, password)
       .then((res) => {
-
         // add photo url and display name
+
         const formData = new FormData();
         formData.append("image", profileImage);
 
-        axios.post(
+        axios
+          .post(
             `https://api.imgbb.com/1/upload?key=3e5c0aba1d1d78e329f5b6f1189bce28`,
             formData
           )
@@ -45,13 +51,28 @@ const Register = () => {
             };
             updateProfile(auth.currentUser, userProfile)
               .then(() => {
-                // now you need to store user information in data base 
-                console.log(data)
+                // send data to the database
+                console.log(data);
+                console.log(user);
 
+                const userInfo = {
+                  name: user.displayName,
+                  email: user.email,
+                  photoURL: user.photoURL,
+                  framework: data.framwork,
+                };
 
+                //  users post Apis
 
-
-               })
+                axios
+                  .post("http://localhost:3000/users", userInfo)
+                  .then((res) => {
+                    console.log(res.data);
+                    if (res.data.insertedId) {
+                      navigate("/home");
+                    }
+                  });
+              })
               .catch((error) => {
                 console.log(error.message);
               });
@@ -61,6 +82,41 @@ const Register = () => {
         console.log(error.message);
         setError("this email is Already used");
       });
+
+    // now send the user info in the database
+  };
+
+  // Using Google Sign
+  const handleGoogle = () => {
+    // console.log("handle googke button is Clicked")
+    googleLogIn()
+      .then((res) => {
+        console.log(res.user);
+
+        const userInfo = {
+          name: res.user.displayName,
+          email: res.user.email,
+          photoURL: res.user.photoURL,
+        };
+
+        axios.post("http://localhost:3000/users", userInfo).then((res) => {
+          console.log(res.data);
+          if (res.data.insertedId) {
+            console.log("user is created");
+          } else {
+            console.log("user is already exit");
+          }
+          navigate("/home");
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
+  //Show Password
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   // === Dynamic 3D Cubes ===
@@ -161,14 +217,13 @@ const Register = () => {
                     Choose Role
                   </label>
                   <select
-                    defaultValue="Pick Your Role"
+                    defaultValue=" choose your Role"
                     className="select select-info"
                     {...register("framwork", { required: true })}
                   >
-                    <option disabled={true}>Pick a Framework</option>
-                    <option>React</option>
-                    <option>Vue</option>
-                    <option>Angular</option>
+                    <option disabled={true}>Choose your Role</option>
+                    <option>borrower</option>
+                    <option>manager </option>
                   </select>
                 </div>
                 {errors.framwork?.type === "required" && (
@@ -179,16 +234,26 @@ const Register = () => {
                 <label className="block mb-1 text-xs font-medium">
                   Password
                 </label>
-                <input
-                  type="password"
-                  {...register("password", {
-                    required: true,
-                    minLength: 6,
-                    pattern: /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/,
-                  })}
-                  className="w-full px-3 py-2 rounded-md bg-white/20 focus:bg-white/30 outline-none border border-white/30 placeholder-gray-200 focus:border-fuchsia-400 transition text-sm"
-                  placeholder="Password"
-                />
+
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    {...register("password", {
+                      required: true,
+                      minLength: 6,
+                      pattern: /^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/,
+                    })}
+                    className="w-full px-3 py-2 rounded-md bg-white/20 focus:bg-white/30 outline-none border border-white/30 placeholder-gray-200 focus:border-fuchsia-400 transition text-sm"
+                    placeholder="Password"
+                  />
+                  <div
+                    onClick={handleShowPassword}
+                    className="absolute top-3 right-7"
+                  >
+                    {showPassword ? <FaEyeSlash /> : <LuEye />}
+                  </div>
+                </div>
+
                 {errors.password?.type === "required" && (
                   <p>password is fequired</p>
                 )}
@@ -217,7 +282,10 @@ const Register = () => {
 
           {/* Google Login Button */}
 
-          <button className="flex items-center justify-center gap-2 w-10/12 py-2 bg-white text-gray-800 font-medium rounded-md shadow-md hover:bg-gray-100 transition text-sm -mt-5 mx-auto">
+          <button
+            onClick={handleGoogle}
+            className="flex items-center justify-center gap-2 w-10/12 py-2 bg-white text-gray-800 font-medium rounded-md shadow-md hover:bg-gray-100 transition text-sm -mt-5 mx-auto"
+          >
             <img
               src="https://www.svgrepo.com/show/355037/google.svg"
               alt="Google"
