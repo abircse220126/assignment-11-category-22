@@ -9,6 +9,7 @@ import Home from './Component/HomePage/Home/Home.jsx';
 import Register from './Component/Authentication/Register/Register.jsx';
 import AuthProvider from './Context/AuthProvider/AuthProvider.jsx';
 import Login from './Component/Authentication/Login/Login.jsx';
+import AllLoanPages from './Pages/AllLoanPages/AllLoanPages.jsx';
 
 
 const router = createBrowserRouter([
@@ -28,6 +29,9 @@ const router = createBrowserRouter([
       {
         path:"/home",
         Component:Home
+      },{
+        path:"/all-loan",
+        Component:AllLoanPages
       }
     ]
   },

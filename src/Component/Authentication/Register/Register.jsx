@@ -1,6 +1,6 @@
 import React, { use, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate,} from "react-router";
 import { AuthContext } from "../../../Context/AuthContext/AuthContext";
 import axios from "axios";
 import { updateProfile } from "firebase/auth";
@@ -8,11 +8,12 @@ import { auth } from "../../../Firebase/Firebase.init";
 import { LuEye } from "react-icons/lu";
 import { FaEyeSlash } from "react-icons/fa";
 
+
+
 const Register = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
-
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
