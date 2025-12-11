@@ -10,6 +10,10 @@ import Register from './Component/Authentication/Register/Register.jsx';
 import AuthProvider from './Context/AuthProvider/AuthProvider.jsx';
 import Login from './Component/Authentication/Login/Login.jsx';
 import AllLoanPages from './Pages/AllLoanPages/AllLoanPages.jsx';
+import ViewDetails from './Pages/ViewDetails/ViewDetails.jsx';
+import axios from 'axios';
+import LoanFormPage from './Pages/LoanFormPage/LoanFormPage.jsx';
+import MyLoanPage from './Pages/MyLoanPage/MyLoanPage.jsx';
 
 
 const router = createBrowserRouter([
@@ -29,9 +33,23 @@ const router = createBrowserRouter([
       {
         path:"/home",
         Component:Home
-      },{
+      },
+      {
         path:"/all-loan",
         Component:AllLoanPages
+      },
+      {
+        path:"/view-details/:id",
+        loader:({params})=>axios.get(`http://localhost:3000/loan/${params.id}`),
+        Component:ViewDetails
+      },
+      {
+        path:"/loan-form",
+        Component: LoanFormPage ,
+      },
+      {
+        path:"/my-loan",
+        Component:MyLoanPage
       }
     ]
   },

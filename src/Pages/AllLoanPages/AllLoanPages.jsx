@@ -10,6 +10,7 @@ const AllLoanPages = () => {
     axios.get("http://localhost:3000/loans").then((res) => {
       // console.log(res.data)
       setLoans(res.data);
+      
     });
   }, []);
 

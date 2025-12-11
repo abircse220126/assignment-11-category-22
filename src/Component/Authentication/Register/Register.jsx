@@ -45,7 +45,7 @@ const Register = () => {
           .then((res) => {
             console.log(res.data.data.url);
 
-            // now add update profile
+            //  update profile user profile to the firebase 
             const userProfile = {
               displayName: data.name,
               photoURL: res.data.data.url,
