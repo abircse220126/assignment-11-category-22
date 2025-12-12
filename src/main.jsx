@@ -14,6 +14,8 @@ import ViewDetails from './Pages/ViewDetails/ViewDetails.jsx';
 import axios from 'axios';
 import LoanFormPage from './Pages/LoanFormPage/LoanFormPage.jsx';
 import MyLoanPage from './Pages/MyLoanPage/MyLoanPage.jsx';
+import DashBoardLayout from './Layout/DashboardLayout/DashBoardLayout.jsx';
+import DashBoardPage from './DashBoard/DashBoardPage/DashBoardPage.jsx';
 
 
 const router = createBrowserRouter([
@@ -53,6 +55,17 @@ const router = createBrowserRouter([
       }
     ]
   },
+  
+  {
+    path:"/dashboard",
+    Component:DashBoardLayout,
+    children:[
+      {
+        index:true,
+        Component:DashBoardPage
+      }
+    ]
+  }
 ]);
 
 createRoot(document.getElementById('root')).render(
