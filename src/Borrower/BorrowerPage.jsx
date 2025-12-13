@@ -9,7 +9,7 @@ const BorrowerPage = () => {
         <li className="flex items-center mx-2 gap-2">
           {" "}
           <SiMyspace />
-          <NavLink>My Loans</NavLink>
+          <NavLink to="/dashboard/my-loan">My Loans</NavLink>
         </li>
       </ul>
     </div>

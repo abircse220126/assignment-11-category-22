@@ -63,6 +63,7 @@ const Login = () => {
           name: res.user.displayName,
           email: res.user.email,
           photoURL: res.user.photoURL,
+          role:"borrower"
         };
 
         axios.post("http://localhost:3000/users", userInfo).then((res) => {

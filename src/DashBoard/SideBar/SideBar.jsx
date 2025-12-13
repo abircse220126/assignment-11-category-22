@@ -89,19 +89,16 @@ import { FaHome } from "react-icons/fa";
 import { MdDashboardCustomize } from "react-icons/md";
 import ManagerPage from "../../Manager/ManagerPage";
 import BorrowerPage from "../../Borrower/BorrowerPage";
+import useRole from "../../Hooks/useRole";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
+  const {role}= useRole()
 
-  // const menu = [
-  //   { name: "Dashboard", path: "/dashboard" },
-  //   { name: "All Loans", path: "/home" },
-  //   { name: "My Applications", path: "/applications" },
-  //   { name: "Transactions", path: "/transactions" },
-  //   { name: "Profile", path: "/profile" },
-  //   { name: "Settings", path: "/settings" },
-  // ];
+  console.log(role)
+  console.log(typeof (role))
 
+  
   return (
     <>
       {/* Mobile Top Bar */}
@@ -180,9 +177,11 @@ const Sidebar = () => {
               <MdDashboardCustomize />
               <NavLink to="/dashboard">Dashboard</NavLink>
             </li>
-            <AdminPage></AdminPage>
-            <ManagerPage></ManagerPage>
-            <BorrowerPage></BorrowerPage>
+
+            {role==="borrower" && <BorrowerPage></BorrowerPage> }
+            {role==="manager" && <ManagerPage></ManagerPage> }
+            {role==="admin" && <AdminPage></AdminPage> }
+
           </ul>
         </nav>
 

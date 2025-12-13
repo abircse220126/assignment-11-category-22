@@ -14,7 +14,7 @@ const DashBoardLayout = () => {
       </div>
 
       {/* Content + Navbar */}
-      <div className="col-span-12 md:col-span-10 bg-gray-50 ml-8">
+      <div className="col-span-12 md:col-span-10 bg-gray-50 ">
         <div className="sticky top-0 z-50 bg-white shadow-md">
           <DashBoardNavbar />
         </div>

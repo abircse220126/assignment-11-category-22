@@ -53,14 +53,14 @@ const Register = () => {
             updateProfile(auth.currentUser, userProfile)
               .then(() => {
                 // send data to the database
-                console.log(data);
-                console.log(user);
+                // console.log(data);
+                // console.log(user);
 
                 const userInfo = {
                   name: data.name,
                   email: data.email,
                   photoURL: res.data.data.url,
-                  framework: data.framwork,
+                  role: data.framwork,
                 };
 
                 //  users post Apis
@@ -98,6 +98,7 @@ const Register = () => {
           name: res.user.displayName,
           email: res.user.email,
           photoURL: res.user.photoURL,
+          role:"borrower"
         };
 
         axios.post("http://localhost:3000/users", userInfo).then((res) => {

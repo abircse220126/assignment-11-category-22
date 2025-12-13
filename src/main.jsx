@@ -1,77 +1,84 @@
-import { Component, StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import { Component, StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import MainLayout from './Layout/MainLayout/MainLayout.jsx';
-import Home from './Component/HomePage/Home/Home.jsx';
-import Register from './Component/Authentication/Register/Register.jsx';
-import AuthProvider from './Context/AuthProvider/AuthProvider.jsx';
-import Login from './Component/Authentication/Login/Login.jsx';
-import AllLoanPages from './Pages/AllLoanPages/AllLoanPages.jsx';
-import ViewDetails from './Pages/ViewDetails/ViewDetails.jsx';
-import axios from 'axios';
-import LoanFormPage from './Pages/LoanFormPage/LoanFormPage.jsx';
-import MyLoanPage from './Pages/MyLoanPage/MyLoanPage.jsx';
-import DashBoardLayout from './Layout/DashboardLayout/DashBoardLayout.jsx';
-import DashBoardPage from './DashBoard/DashBoardPage/DashBoardPage.jsx';
+import MainLayout from "./Layout/MainLayout/MainLayout.jsx";
+import Home from "./Component/HomePage/Home/Home.jsx";
+import Register from "./Component/Authentication/Register/Register.jsx";
+import AuthProvider from "./Context/AuthProvider/AuthProvider.jsx";
+import Login from "./Component/Authentication/Login/Login.jsx";
+import AllLoanPages from "./Pages/AllLoanPages/AllLoanPages.jsx";
+import ViewDetails from "./Pages/ViewDetails/ViewDetails.jsx";
+import axios from "axios";
+import LoanFormPage from "./Pages/LoanFormPage/LoanFormPage.jsx";
+import MyLoanPage from "./Pages/MyLoanPage/MyLoanPage.jsx";
+import DashBoardLayout from "./Layout/DashboardLayout/DashBoardLayout.jsx";
+import DashBoardPage from "./DashBoard/DashBoardPage/DashBoardPage.jsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+
+const queryClient = new QueryClient()
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    Component:MainLayout,
-    children:[
+    Component: MainLayout,
+    children: [
       {
-        index:true,
-        Component:Register
+        index: true,
+        Component: Register,
       },
       {
-        path:"/login",
-        Component:Login
+        path: "/login",
+        Component: Login,
       },
-      
+
       {
-        path:"/home",
-        Component:Home
-      },
-      {
-        path:"/all-loan",
-        Component:AllLoanPages
+        path: "/home",
+        Component: Home,
       },
       {
-        path:"/view-details/:id",
-        loader:({params})=>axios.get(`http://localhost:3000/loan/${params.id}`),
-        Component:ViewDetails
+        path: "/all-loan",
+        Component: AllLoanPages,
       },
       {
-        path:"/loan-form",
-        Component: LoanFormPage ,
+        path: "/view-details/:id",
+        loader: ({ params }) =>
+          axios.get(`http://localhost:3000/loan/${params.id}`),
+        Component: ViewDetails,
       },
       {
-        path:"/my-loan",
-        Component:MyLoanPage
-      }
-    ]
+        path: "/loan-form",
+        Component: LoanFormPage,
+      },
+    ],
   },
-  
+
   {
-    path:"/dashboard",
-    Component:DashBoardLayout,
-    children:[
+    path: "dashboard",
+    Component: DashBoardLayout,
+    children: [
       {
-        index:true,
-        Component:DashBoardPage
-      }
-    ]
-  }
+        index: true,
+        Component: DashBoardPage,
+      },
+      {
+        path: "my-loan",
+        Component: MyLoanPage,
+      },
+    ],
+  },
 ]);
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-       <RouterProvider router={router} />,
+   <QueryClientProvider client={queryClient}>
+     <AuthProvider>
+      <RouterProvider router={router} />,
     </AuthProvider>
-  </StrictMode>,
-)
+   </QueryClientProvider>
+  </StrictMode>
+);
