@@ -4,6 +4,9 @@ import { Link, useLoaderData } from "react-router";
 
 const ViewDetails = () => {
   const loan = useLoaderData();
+
+  // console.log(loan)
+
   const {
     emiPlans,
     interest,
@@ -12,8 +15,8 @@ const ViewDetails = () => {
     loanImage,
     loanTitle,
     maxLoanLimit,
-  } = loan.data;
-  console.log(loan.data);
+  } = loan.data
+  
 
   return (
     <div className="max-w-4xl mx-auto px-4">

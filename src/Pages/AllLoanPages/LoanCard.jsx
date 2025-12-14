@@ -50,14 +50,14 @@ import { Link } from "react-router";
 
 const LoanCard = ({ loan }) => {
   const {
-    emiPlans,
+    
     interest,
     loanCategory,
-    loanDescription,
     loanImage,
     loanTitle,
     maxLoanLimit,
   } = loan;
+
   console.log(loan);
 
   return (
@@ -82,9 +82,7 @@ const LoanCard = ({ loan }) => {
         <div className="flex justify-between text-xs text-gray-600">
           <p>
             Interest:{" "}
-            <span className="font-semibold text-gray-800">
-              {interest}
-            </span>
+            <span className="font-semibold text-gray-800">{interest}</span>
           </p>
           <p>
             Limit:{" "}

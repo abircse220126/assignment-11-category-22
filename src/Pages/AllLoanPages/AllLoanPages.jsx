@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import LoanCard from "./LoanCard";
 import axios from "axios";
-import { data } from "react-router";
+import { } from "react-router";
 
 const AllLoanPages = () => {
   const [loans, setLoans] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/loans").then((res) => {
+    axios.get("http://localhost:3000/loans")
+    .then((res) => {
       // console.log(res.data)
       setLoans(res.data);
       
     });
   }, []);
 
-  // console.log(loans)
+  console.log(loans)
 
   return (
     <div

@@ -172,11 +172,11 @@ const Sidebar = () => {
               <NavLink to="/home">Home</NavLink>
             </li>
 
-            <li className="flex items-center mx-2 gap-2">
+            {/* <li className="flex items-center mx-2 gap-2">
               {" "}
               <MdDashboardCustomize />
               <NavLink to="/dashboard">Dashboard</NavLink>
-            </li>
+            </li> */}
 
             {role==="borrower" && <BorrowerPage></BorrowerPage> }
             {role==="manager" && <ManagerPage></ManagerPage> }

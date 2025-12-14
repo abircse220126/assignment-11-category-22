@@ -17,10 +17,11 @@ import MyLoanPage from "./Pages/MyLoanPage/MyLoanPage.jsx";
 import DashBoardLayout from "./Layout/DashboardLayout/DashBoardLayout.jsx";
 import DashBoardPage from "./DashBoard/DashBoardPage/DashBoardPage.jsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ManageUser from "./Admin/ManageUser/ManageUser.jsx";
+import AllLoan from "./Admin/AllLoan/AllLoan.jsx";
+import UpdatedLoan from "./Admin/UpdatedLoan/UpdatedLoan.jsx";
 
-
-const queryClient = new QueryClient()
-
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -44,11 +45,12 @@ const router = createBrowserRouter([
         path: "/all-loan",
         Component: AllLoanPages,
       },
+      
       {
         path: "/view-details/:id",
         loader: ({ params }) =>
-          axios.get(`http://localhost:3000/loan/${params.id}`),
-        Component: ViewDetails,
+        axios.get(`http://localhost:3000/loan/${params.id}`),
+        Component: ViewDetails, 
       },
       {
         path: "/loan-form",
@@ -69,16 +71,30 @@ const router = createBrowserRouter([
         path: "my-loan",
         Component: MyLoanPage,
       },
+      {
+        path: "manage-user",
+        Component: ManageUser,
+      },
+      {
+        path: "all-loan",
+        Component: AllLoan,
+      },
+      {
+        path:"update-loan/:id",
+        loader: ({ params }) =>
+        axios.get(`http://localhost:3000/loan/${params.id}`),
+        Component:UpdatedLoan
+      }
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-   <QueryClientProvider client={queryClient}>
-     <AuthProvider>
-      <RouterProvider router={router} />,
-    </AuthProvider>
-   </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={router} />,
+      </AuthProvider>
+    </QueryClientProvider>
   </StrictMode>
 );

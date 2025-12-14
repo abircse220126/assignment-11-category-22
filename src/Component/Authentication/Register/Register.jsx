@@ -20,7 +20,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const { user, createUser, googleLogIn } = use(AuthContext);
+  const {  createUser, googleLogIn } = use(AuthContext);
   // console.log(user);
 
   // Sign In using Email Password
@@ -28,6 +28,8 @@ const Register = () => {
     const email = data.email;
     const password = data.password;
     const profileImage = data.photo[0];
+    
+    console.log(profileImage)
     // const frameWork = data.framwork;
 
     createUser(email, password)
