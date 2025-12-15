@@ -16,7 +16,6 @@ const AllLoan = () => {
 
   const handleShowHome = (id, value) => {
 
-    console.log(value)
     const updateinfo = {
       showHome: value,
     };
@@ -78,7 +77,7 @@ const AllLoan = () => {
               <td className="pl-15">
                 <input
                   checked={Boolean(loan.showHome)}
-                  onChange={(e) => handleShowHome(loan._id, e.target.checked)}
+                  onChange={(e) => handleShowHome(loan._id , e.target.checked)}
                   type="checkbox"
                   className="checkbox checkbox-secondary"
                 />

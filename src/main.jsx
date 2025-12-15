@@ -20,6 +20,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ManageUser from "./Admin/ManageUser/ManageUser.jsx";
 import AllLoan from "./Admin/AllLoan/AllLoan.jsx";
 import UpdatedLoan from "./Admin/UpdatedLoan/UpdatedLoan.jsx";
+import LoanApplication from "./Admin/LoanApplication/LoanApplication.jsx";
 
 const queryClient = new QueryClient();
 
@@ -84,6 +85,10 @@ const router = createBrowserRouter([
         loader: ({ params }) =>
         axios.get(`http://localhost:3000/loan/${params.id}`),
         Component:UpdatedLoan
+      },
+      {
+        path:"loan-application",
+        Component:LoanApplication
       }
     ],
   },

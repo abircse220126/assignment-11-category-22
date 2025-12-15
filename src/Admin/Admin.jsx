@@ -33,7 +33,7 @@ const AdminPage = () => {
         <li className="flex items-center mx-2 gap-2">
           {" "}
           <MdOutlineSettingsApplications />
-          <NavLink>loan Application</NavLink>
+          <NavLink to='loan-application'>loan Application</NavLink>
         </li>
       </ul>
     </div>
