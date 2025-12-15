@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+
 import { Link, NavLink } from "react-router";
 
 const AllLoan = () => {
-  const { data } = useQuery({
+  
+  const { data , refetch } = useQuery({
     queryKey: ["loan", "application"],
     queryFn: () => {
       const result = axios.get("http://localhost:3000/loans");
@@ -13,7 +14,30 @@ const AllLoan = () => {
   });
   const loans = data?.data;
 
+  const handleShowHome = (id, value) => {
 
+    console.log(value)
+    const updateinfo = {
+      showHome: value,
+    };
+
+    axios
+      .patch(`http://localhost:3000/loans/show-no-home/${id}`, updateinfo)
+      .then((res) => {
+        console.log(res.data);
+        refetch()
+      });
+  };
+
+  const handleDelete=(id)=>{
+    // console.log("delete button is clicked" , id)
+
+    axios.delete(`http://localhost:3000/loan/delete/${id}`)
+    .then(res =>{
+      console.log(res.data)
+      refetch()
+    })
+  }
 
   return (
     <div className="overflow-x-auto">
@@ -53,16 +77,23 @@ const AllLoan = () => {
               <td>{loan.createdBy}</td>
               <td className="pl-15">
                 <input
+                  checked={Boolean(loan.showHome)}
+                  onChange={(e) => handleShowHome(loan._id, e.target.checked)}
                   type="checkbox"
-                  defaultChecked
                   className="checkbox checkbox-secondary"
                 />
               </td>
               <th className="flex gap-5">
-             <NavLink to={`/dashboard/update-loan/${loan._id}`}> <button className="btn btn-accent">Update</button></NavLink>
-             
+                <NavLink to={`/dashboard/update-loan/${loan._id}`}>
+                  {" "}
+                  <button className="btn btn-accent">Update</button>
+                </NavLink>
 
-                <button className="btn btn-accent"><NavLink >Delete</NavLink></button>
+                <button 
+                onClick={()=>handleDelete(loan._id)}
+                className="btn btn-accent">
+                  <NavLink>Delete</NavLink>
+                </button>
               </th>
             </tr>
           ))}
