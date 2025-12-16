@@ -45,12 +45,15 @@ const PendingLoan = () => {
       </thead>
 
       <tbody>
+        {/* show modal */}
+
         {showModal && (
           <DetailsModal
             data={application}
             onClose={() => setShowModal(false)}
           />
         )}
+        
         {pendingLoan?.map((p) => (
           <tr className="hover:bg-gray-50 text-center">
             <td className="border px-4 py-2">{p._id}</td>

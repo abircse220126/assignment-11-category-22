@@ -35,7 +35,7 @@ const ManagerPage = () => {
       <li className="flex items-center mx-2 gap-2">
         {" "}
         <FcApprove />
-        <NavLink>Approved Applications</NavLink>
+        <NavLink to="/dashboard/loan-approve">Approved Applications</NavLink>
       </li>
     </ul>
   );
