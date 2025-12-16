@@ -26,6 +26,7 @@ import ManageLoan from "./Manager/ManageLoan/ManageLoan.jsx";
 import UpdateLoan from "./Manager/UpdateLoan/UpdateLoan.jsx";
 import PendingLoan from "./Manager/PendingLoan/PendingLoan.jsx";
 import ApproveLoan from "./Manager/ApproveLoan/ApproveLoan.jsx";
+import Profile from "./Component/Profile/Profile.jsx";
 
 const queryClient = new QueryClient();
 
@@ -110,6 +111,10 @@ const router = createBrowserRouter([
       {
         path:"loan-approve",
         Component:ApproveLoan
+      },
+      {
+        path:"profile",
+        Component:Profile
       }
  
     ],

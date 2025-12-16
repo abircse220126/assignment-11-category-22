@@ -54,6 +54,7 @@ const Register = () => {
             };
             updateProfile(auth.currentUser, userProfile)
               .then(() => {
+                
                 // send data to the database
                 // console.log(data);
                 // console.log(user);
@@ -63,7 +64,7 @@ const Register = () => {
                   email: data.email,
                   photoURL: res.data.data.url,
                   role: data.framwork,
-                };
+                }; 
 
                 //  users post Apis
                 axios.post("http://localhost:3000/users", userInfo)

@@ -93,12 +93,11 @@ import useRole from "../../Hooks/useRole";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
-  const {role}= useRole()
+  const { role } = useRole();
 
-  console.log(role)
-  console.log(typeof (role))
+  console.log(role);
+  console.log(typeof role);
 
-  
   return (
     <>
       {/* Mobile Top Bar */}
@@ -178,18 +177,19 @@ const Sidebar = () => {
               <NavLink to="/dashboard">Dashboard</NavLink>
             </li> */}
 
-            {role==="borrower" && <BorrowerPage></BorrowerPage> }
-            {role==="manager" && <ManagerPage></ManagerPage> }
-            {role==="admin" && <AdminPage></AdminPage> }
-
+            {role === "borrower" && <BorrowerPage></BorrowerPage>}
+            {role === "manager" && <ManagerPage></ManagerPage>}
+            {role === "admin" && <AdminPage></AdminPage>}
           </ul>
         </nav>
 
         {/* Footer */}
         <div className="absolute bottom-0 p-5 w-full border-t">
-          <button className="w-full text-left px-4 py-3 rounded-xl font-semibold text-red-600 hover:bg-red-50 transition">
-            My Profile
-          </button>
+          <NavLink to="/dashboard/profile">
+            <button className="w-full text-left px-4 py-3 rounded-xl font-semibold text-red-600 hover:bg-red-50 transition">
+              My Profile
+            </button>
+          </NavLink>
           <button className="w-full text-left px-4 py-3 rounded-xl font-semibold text-red-600 hover:bg-red-50 transition">
             Logout
           </button>
