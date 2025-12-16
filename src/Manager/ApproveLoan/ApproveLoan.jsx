@@ -15,7 +15,7 @@ const ApproveLoan = () => {
   });
   const loans = data?.data;
   const approveLoans=loans?.filter(loan =>loan.status==="Approved")
-  console.log(approveLoans)
+  // console.log(approveLoans)
 
   return (
     <div>

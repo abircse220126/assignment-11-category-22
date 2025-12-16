@@ -52,15 +52,17 @@ const router = createBrowserRouter([
         path: "/all-loan",
         Component: AllLoanPages,
       },
-      
+
       {
         path: "/view-details/:id",
         loader: ({ params }) =>
-        axios.get(`http://localhost:3000/loan/${params.id}`),
-        Component: ViewDetails, 
+          axios.get(`http://localhost:3000/loan/${params.id}`),
+        Component: ViewDetails,
       },
       {
-        path: "/loan-form",
+        path: "/loan-form/:id",
+        loader: ({ params }) =>
+        axios.get(`http://localhost:3000/loan/${params.id}`),
         Component: LoanFormPage,
       },
     ],
@@ -87,36 +89,35 @@ const router = createBrowserRouter([
         Component: AllLoan,
       },
       {
-        path:"update-loan/:id",
+        path: "update-loan/:id",
         loader: ({ params }) =>
-        axios.get(`http://localhost:3000/loan/${params.id}`),
-        Component:UpdatedLoan
+          axios.get(`http://localhost:3000/loan/${params.id}`),
+        Component: UpdatedLoan,
       },
       {
-        path:"loan-application",
-        Component:LoanApplication
+        path: "loan-application",
+        Component: LoanApplication,
       },
       {
-        path:"add-loan",
-        Component:AddLoan
+        path: "add-loan",
+        Component: AddLoan,
       },
       {
-        path:"manage-loan",
-        Component:ManageLoan
+        path: "manage-loan",
+        Component: ManageLoan,
       },
       {
-        path:"pending-loan",
-        Component:PendingLoan
+        path: "pending-loan",
+        Component: PendingLoan,
       },
       {
-        path:"loan-approve",
-        Component:ApproveLoan
+        path: "loan-approve",
+        Component: ApproveLoan,
       },
       {
-        path:"profile",
-        Component:Profile
-      }
- 
+        path: "profile",
+        Component: Profile,
+      },
     ],
   },
 ]);

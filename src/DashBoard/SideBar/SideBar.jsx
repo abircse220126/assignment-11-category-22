@@ -82,7 +82,7 @@
 
 // export default Sidebar;
 
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { NavLink } from "react-router";
 import AdminPage from "../../Admin/Admin";
 import { FaHome } from "react-icons/fa";
@@ -90,13 +90,20 @@ import { MdDashboardCustomize } from "react-icons/md";
 import ManagerPage from "../../Manager/ManagerPage";
 import BorrowerPage from "../../Borrower/BorrowerPage";
 import useRole from "../../Hooks/useRole";
+import { AuthContext } from "../../Context/AuthContext/AuthContext";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
   const { role } = useRole();
 
-  console.log(role);
-  console.log(typeof role);
+  const { SignoutUser } = use(AuthContext);
+  const handleLogout = () => {
+    SignoutUser()
+      .then(() => {})
+      .then(() => {
+        // console.log(error);
+      });
+  };
 
   return (
     <>
@@ -190,9 +197,11 @@ const Sidebar = () => {
               My Profile
             </button>
           </NavLink>
-          <button className="w-full text-left px-4 py-3 rounded-xl font-semibold text-red-600 hover:bg-red-50 transition">
-            Logout
-          </button>
+          <NavLink to="/login">
+            <button onClick={handleLogout} className="w-full text-left px-4 py-3 rounded-xl font-semibold text-red-600 hover:bg-red-50 transition">
+              Logout
+            </button>
+          </NavLink>
         </div>
       </aside>
     </>

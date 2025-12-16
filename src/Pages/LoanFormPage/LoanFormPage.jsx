@@ -1,17 +1,33 @@
 import axios from "axios";
-import React from "react";
+import React, { use } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../Context/AuthContext/AuthContext";
+import { useQuery } from "@tanstack/react-query";
 
 const LoanFormPage = () => {
+  const loanData = useLoaderData().data;
+
+  const { user, SignoutUser } = use(AuthContext);
+
+  const { data } = useQuery({
+    queryKey: ["allLoans", user?.email],
+    queryFn: () => {
+      const result = axios.get(`http://localhost:3000/loans`);
+      return result.data;
+    },
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const navigate=useNavigate()
+  console.log(data);
+
+  const navigate = useNavigate();
 
   const handleApplicationSubmit = (data) => {
     const {
@@ -54,10 +70,9 @@ const LoanFormPage = () => {
         Swal.fire({
           title: "Your Form is Submitted",
           icon: "success",
-          draggable:true,
+          draggable: true,
         });
-        navigate("/my-loan")
-        
+        navigate("/my-loan");
       });
   };
   return (
@@ -77,19 +92,21 @@ const LoanFormPage = () => {
             <input
               type="email"
               {...register("email")}
-              value="user@example.com"
-              readOnly
+              value={user?.email}
+              defaultValue={user?.email}
               className="w-full mt-2 px-4 py-3 border rounded-xl bg-gray-100 cursor-not-allowed shadow-inner text-black"
             />
           </div>
           {errors.email?.type === "required" && <p>email is required</p>}
 
           <div>
-            <label className="text-gray-700 font-semibold">Loan Title</label>
+            <label className="text-gray-700 font-semibold">
+              Loan Title
+            </label>
             <input
               type="text"
               {...register("loan_title")}
-              value="Personal Loan"
+              value={loanData?.loanTitle}
               readOnly
               className="w-full mt-2 px-4 py-3 border rounded-xl bg-gray-100 cursor-not-allowed shadow-inner text-black"
             />
@@ -100,7 +117,7 @@ const LoanFormPage = () => {
             <input
               type="text"
               {...register("interest_rate")}
-              value="12%"
+              value={loanData?.interest}
               readOnly
               className="w-full mt-2 px-4 py-3 border rounded-xl bg-gray-100 cursor-not-allowed shadow-inner text-black"
             />

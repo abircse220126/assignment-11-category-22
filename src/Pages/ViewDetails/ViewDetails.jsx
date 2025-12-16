@@ -15,7 +15,10 @@ const ViewDetails = () => {
     loanImage,
     loanTitle,
     maxLoanLimit,
+    _id
   } = loan.data
+
+  console.log(_id)
   
 
   return (
@@ -70,7 +73,7 @@ const ViewDetails = () => {
 
         {/* Apply Button */}
         <button className="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-indigo-700 transition shadow-md">
-          <Link to="/loan-form">Apply Now</Link>
+          <Link to={`/loan-form/${_id}`}>Apply Now</Link>
         </button>
       </div>
     </div>
