@@ -21,6 +21,10 @@ import ManageUser from "./Admin/ManageUser/ManageUser.jsx";
 import AllLoan from "./Admin/AllLoan/AllLoan.jsx";
 import UpdatedLoan from "./Admin/UpdatedLoan/UpdatedLoan.jsx";
 import LoanApplication from "./Admin/LoanApplication/LoanApplication.jsx";
+import AddLoan from "./Manager/AddLoan/AddLoan.jsx";
+import ManageLoan from "./Manager/ManageLoan/ManageLoan.jsx";
+import UpdateLoan from "./Manager/UpdateLoan/UpdateLoan.jsx";
+import PendingLoan from "./Manager/PendingLoan/PendingLoan.jsx";
 
 const queryClient = new QueryClient();
 
@@ -89,7 +93,20 @@ const router = createBrowserRouter([
       {
         path:"loan-application",
         Component:LoanApplication
+      },
+      {
+        path:"add-loan",
+        Component:AddLoan
+      },
+      {
+        path:"manage-loan",
+        Component:ManageLoan
+      },
+      {
+        path:"pending-loan",
+        Component:PendingLoan
       }
+ 
     ],
   },
 ]);

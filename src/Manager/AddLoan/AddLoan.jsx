@@ -1,109 +1,89 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
 
-const UpdatedLoan = () => {
-  const loan = useLoaderData();
-  const loanId = loan.data._id;
+const AddLoan = () => {
+  const [showHome, setShowhome] = useState(false);
   const { register, handleSubmit } = useForm();
 
-  //   const handleUpdateLoan = (event) => {
-  //     event.preventDefault();
+  const handleShowHome = () => {
+    setShowhome(!showHome);
+  };
 
-  //     // const form = event.target;
-  //     const title = event.target.title.value;
-  //     const description = event.target.description.value;
-  //     const interest = event.target.interest.value;
-  //     const loanLimit = event.target.loanlimit.value;
-  //     const emi = event.target.emi.value;
-  //     const loanImage = event.target.image.value;
-  //     const category = event.target.category.value;
+  console.log(showHome)
 
-  //     console.log("title", title);
-  //     console.log("description", description);
-  //     console.log("interest", interest);
-  //     console.log("loanLimit", loanLimit);
-  //     console.log("emi", emi);
-  //     console.log("loan image", loanImage);
-  //     console.log("category", category);
-  //   };
-
-  const handleUpdateLoan = (data) => {
-    const title = data.title;
-    const description = data.description;
+  const handleformSubmit = (data) => {
+    const loanTitle = data.title;
+    const loanDescription = data.description;
+    const loanCategory = data.category;
     const interest = data.interest;
-    const category = data.category;
+    const maxLoanLimit = data.loanLimit;
+    const document = data.document;
     const emi = data.emi;
-    const Loanimage = data.image[0];
-    const loanlimit = data.loanlimit;
-
+    const loanImage = data.image[0];
+    const date = data.date;
     const formData = new FormData();
-    formData.append("image", Loanimage);
+    formData.append("image", loanImage);
 
     axios
       .post(
-        `https://api.imgbb.com/1/upload?key=dabfe38b5d7e8414da7cdc161eeec0a5`,
+        `https://api.imgbb.com/1/upload?key=3e5c0aba1d1d78e329f5b6f1189bce28`,
         formData
       )
       .then((res) => {
         console.log(res.data.data.url);
         const loanImage = res.data.data.url;
-
-        const updateLoan = {
-          title,
-          description,
+        const loanInfo = {
+          loanTitle,
+          loanDescription,
+          loanCategory,
           interest,
-          category,
+          maxLoanLimit,
+          document,
           emi,
           loanImage,
-          loanlimit,
+          date,
+          showHome,
         };
-        console.log(updateLoan);
 
-        //  now request for update loan
+        axios.post(`http://localhost:3000/loans`, loanInfo).then((res) => {
+          console.log(res.data);
+          //    here add the confarmation pop up
 
-        axios
-          .patch(`http://localhost:3000/updates/${loanId}`, updateLoan)
-          .then(() => {
-            // console.log(res.data)
-
-            Swal.fire({
-              title: "Loan is Updated",
-              width: 600,
-              padding: "3em",
-              color: "#716add",
-              background: "#fff url(/images/trees.png)",
-              backdrop: `
-                  rgba(0,0,123,0.4)
-                  url("/images/nyan-cat.gif")
-                  left top
-                  no-repeat`,
-            });
+          Swal.fire({
+            title: "New Loan is Added ",
+            width: 600,
+            padding: "3em",
+            color: "#716add",
+            background: "#fff url(/images/trees.png)",
+            backdrop: `
+                rgba(0,0,123,0.4)
+                url("/images/nyan-cat.gif")
+                left top  no-repeat`,
           });
+        });
       });
   };
+
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-8">
-        {/* Header */}
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">
-          Create Loan Package
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center">
+          Loan Details Form
         </h2>
-        <p className="text-gray-500 mb-6">
-          Fill in the loan details carefully before submitting
+        <p className="text-gray-500 mb-6 text-center">
+          Fill in the loan details carefully
         </p>
 
-        <form onSubmit={handleSubmit(handleUpdateLoan)} className="space-y-6">
-          {/* Title */}
+        <form onSubmit={handleSubmit(handleformSubmit)} className="space-y-6">
+          {/* Loan Title */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Loan Title
             </label>
             <input
               type="text"
-              name="title"
               {...register("title")}
               placeholder="e.g. Personal Business Loan"
               className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -117,34 +97,19 @@ const UpdatedLoan = () => {
             </label>
             <textarea
               rows="4"
-              name="description"
               {...register("description")}
               placeholder="Write loan description..."
               className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             ></textarea>
           </div>
 
-          {/* Interest & Category */}
+          {/* Category & Interest Rate */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Interest Rate (%)
-              </label>
-              <input
-                type="number"
-                name="interest"
-                {...register("interest")}
-                placeholder="e.g. 12"
-                className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-              />
-            </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Category
               </label>
               <select
-                name="category"
                 {...register("category")}
                 className="w-full rounded-xl border border-gray-300 px-4 py-2 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
               >
@@ -155,6 +120,18 @@ const UpdatedLoan = () => {
                 <option>Home Loan</option>
               </select>
             </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Interest Rate (%)
+              </label>
+              <input
+                type="number"
+                {...register("interest")}
+                placeholder="e.g. 12"
+                className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              />
+            </div>
           </div>
 
           {/* Max Loan Limit */}
@@ -164,9 +141,21 @@ const UpdatedLoan = () => {
             </label>
             <input
               type="number"
-              name="loanlimit"
-              {...register("loanlimit")}
+              {...register("loanLimit")}
               placeholder="e.g. 500000"
+              className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Required Documents */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Required Documents
+            </label>
+            <input
+              type="text"
+              {...register("document")}
+              placeholder="e.g. National ID, Income Proof"
               className="w-full rounded-xl border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
           </div>
@@ -176,8 +165,6 @@ const UpdatedLoan = () => {
             <label className="block text-sm font-medium text-gray-700 mb-3">
               Available EMI Plans
             </label>
-          </div>
-          <div>
             <div className="flex gap-5">
               <label className="flex items-center gap-2 border rounded-xl px-3 py-2 cursor-pointer">
                 <input
@@ -233,12 +220,11 @@ const UpdatedLoan = () => {
 
             <div className="border-2 border-dashed rounded-xl p-6 text-center hover:border-blue-500 transition">
               <input
-                name="image"
                 {...register("image")}
                 type="file"
                 multiple
-                // className="hidden"
                 id="loanImages"
+                className="hidden"
               />
               <label
                 htmlFor="loanImages"
@@ -250,13 +236,38 @@ const UpdatedLoan = () => {
             </div>
           </div>
 
+          {/* Date (from system) */}
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Date
+            </label>
+            <input
+              type="text"
+              {...register("date")}
+              value={new Date().toLocaleDateString()}
+              disabled
+              className="w-full rounded-xl border border-gray-300 px-4 py-2 bg-gray-100"
+            />
+          </div>
+
+          {/* Show on Home Toggle */}
+          <div className="flex items-center space-x-2">
+            <input
+              onClick={handleShowHome}
+              type="checkbox"
+              className="w-5 h-5"
+            />
+            <label className="font-medium">Show on Home</label>
+          </div>
+
           {/* Submit Button */}
           <div className="pt-4">
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition"
             >
-              Update Loan
+              Submit
             </button>
           </div>
         </form>
@@ -265,4 +276,4 @@ const UpdatedLoan = () => {
   );
 };
 
-export default UpdatedLoan;
+export default AddLoan;

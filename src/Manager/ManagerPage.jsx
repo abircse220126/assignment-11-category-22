@@ -20,17 +20,17 @@ const ManagerPage = () => {
       <li className="flex items-center mx-2 gap-2">
         {" "}
         <IoAddCircle />
-        <NavLink>Add Loan</NavLink>
+        <NavLink to="/dashboard/add-loan">Add Loan</NavLink>
       </li>
       <li className="flex items-center mx-2 gap-2">
         {" "}
         <MdManageAccounts />
-        <NavLink>Manage Loans</NavLink>
+        <NavLink to="/dashboard/manage-loan">Manage Loans</NavLink>
       </li>
       <li className="flex items-center mx-2 gap-2">
         {" "}
         <MdPending />
-        <NavLink>Pending Applications</NavLink>
+        <NavLink to="/dashboard/pending-loan">Pending Applications</NavLink>
       </li>
       <li className="flex items-center mx-2 gap-2">
         {" "}

@@ -1,49 +1,3 @@
-// import React from "react";
-
-// const LoanCard = ({ loan }) => {
-//   console.log(loan);
-//   return (
-//     <div className="max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all">
-//       {/* Loan Image */}
-//       <div className="h-48 w-full">
-//         <img
-//           src={loan.loanImage}
-//           alt="Loan"
-//           className="w-full h-full object-cover"
-//         />
-//       </div>
-
-//       {/* Card Content */}
-//       <div className="p-5 space-y-3">
-//         {/* Loan Title */}
-//         <h2 className="text-xl font-semibold text-black">{loan.loanTitle}</h2>
-
-//         {/* Loan Category */}
-//         <p className="text-sm text-gray-600">
-//           Category: <span className="font-medium">{loan.loanCategory}</span>
-//         </p>
-
-//         {/* Interest */}
-//         <p className="text-sm text-gray-600">
-//           Interest Rate: <span className="font-medium">{loan.interest}%</span>
-//         </p>
-
-//         {/* Max Limit */}
-//         <p className="text-sm text-gray-600">
-//           Max Loan Limit:{" "}
-//           <span className="font-medium">{loan.maxLoanLimit}BDT</span>
-//         </p>
-
-//         {/* View Details Button */}
-//         <button className="w-full mt-3 bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">
-//           View Details
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default LoanCard;
 
 import React from "react";
 import { Link } from "react-router";
@@ -58,7 +12,7 @@ const LoanCard = ({ loan }) => {
     maxLoanLimit,
   } = loan;
 
-  console.log(loan);
+  // console.log(loan);
 
   return (
     <div className="w-70 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100">
