@@ -171,7 +171,7 @@ const LoanApplication = () => {
   const [application, setApplication] = useState(null);
 
   const { data, refetch } = useQuery({
-    queryKey: ["applications"],
+    queryKey: ["LoanpplicationsForm"],
     queryFn: async () => {
       const result = await axios.get(`http://localhost:3000/applicationform`);
       return result.data;
