@@ -27,6 +27,7 @@ import UpdateLoan from "./Manager/UpdateLoan/UpdateLoan.jsx";
 import PendingLoan from "./Manager/PendingLoan/PendingLoan.jsx";
 import ApproveLoan from "./Manager/ApproveLoan/ApproveLoan.jsx";
 import Profile from "./Component/Profile/Profile.jsx";
+import UpdateUserStatus from "./Admin/UpdateUserStatus/UpdateUserStatus.jsx";
 
 const queryClient = new QueryClient();
 
@@ -62,7 +63,7 @@ const router = createBrowserRouter([
       {
         path: "/loan-form/:id",
         loader: ({ params }) =>
-        axios.get(`http://localhost:3000/loan/${params.id}`),
+          axios.get(`http://localhost:3000/loan/${params.id}`),
         Component: LoanFormPage,
       },
     ],
@@ -117,6 +118,12 @@ const router = createBrowserRouter([
       {
         path: "profile",
         Component: Profile,
+      },
+      {
+        path: "user-status/:id",
+        loader: ({ params }) =>
+          axios.get(`http://localhost:3000/users/${params.id}`),
+        Component: UpdateUserStatus,
       },
     ],
   },
