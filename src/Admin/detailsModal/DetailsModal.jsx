@@ -2,7 +2,7 @@ import { Info } from "lucide-react";
 import React from "react";
 
 const DetailsModal = ({ data, onClose }) => {
-  console.log(data);
+  // console.log(data);
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="bg-white w-full max-w-lg rounded-xl p-6 relative shadow-2xl text-sm">

@@ -2,10 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 import { Link, NavLink } from "react-router";
+import DeleteModal from "../DeleteModal/DeleteModal";
+import { useState } from "react";
 
 const AllLoan = () => {
-  
-  const { data , refetch } = useQuery({
+  const [showModal, setshowModal] = useState(false);
+  const [application, setApplication] = useState();
+
+  const { data, refetch } = useQuery({
     queryKey: ["loan", "application"],
     queryFn: () => {
       const result = axios.get("http://localhost:3000/loans");
@@ -15,28 +19,22 @@ const AllLoan = () => {
   const loans = data?.data;
 
   const handleShowHome = (id, value) => {
-
     const updateinfo = {
       showHome: value,
     };
 
     axios
       .patch(`http://localhost:3000/loans/show-no-home/${id}`, updateinfo)
-      .then((res) => {
-        console.log(res.data);
-        refetch()
+      .then(() => {
+        refetch();
       });
   };
 
-  const handleDelete=(id)=>{
-    // console.log("delete button is clicked" , id)
 
-    axios.delete(`http://localhost:3000/loan/delete/${id}`)
-    .then(res =>{
-      console.log(res.data)
-      refetch()
-    })
-  }
+  const handleDelete = (id) => {
+    setshowModal(true);
+    setApplication(id);
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -53,6 +51,14 @@ const AllLoan = () => {
         </thead>
         <tbody>
           {/* row 1 */}
+
+          {showModal && (
+            <DeleteModal
+              id={application}
+              onClose={() => setshowModal(false)}
+              refetch={refetch}
+            ></DeleteModal>
+          )}
 
           {loans?.map((loan) => (
             <tr>
@@ -77,7 +83,7 @@ const AllLoan = () => {
               <td className="pl-15">
                 <input
                   checked={Boolean(loan.showHome)}
-                  onChange={(e) => handleShowHome(loan._id , e.target.checked)}
+                  onChange={(e) => handleShowHome(loan._id, e.target.checked)}
                   type="checkbox"
                   className="checkbox checkbox-secondary"
                 />
@@ -88,9 +94,10 @@ const AllLoan = () => {
                   <button className="btn btn-accent">Update</button>
                 </NavLink>
 
-                <button 
-                onClick={()=>handleDelete(loan._id)}
-                className="btn btn-accent">
+                <button
+                  onClick={() => handleDelete(loan._id)}
+                  className="btn btn-accent"
+                >
                   <NavLink>Delete</NavLink>
                 </button>
               </th>
