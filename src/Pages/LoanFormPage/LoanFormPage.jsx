@@ -72,7 +72,7 @@ const LoanFormPage = () => {
           icon: "success",
           draggable: true,
         });
-        navigate("/my-loan");
+        navigate("/dashboard/my-loan");
       });
   };
   return (

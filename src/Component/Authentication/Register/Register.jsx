@@ -1,6 +1,6 @@
 import React, { use, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate,} from "react-router";
+import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../../Context/AuthContext/AuthContext";
 import axios from "axios";
 import { updateProfile } from "firebase/auth";
@@ -8,19 +8,17 @@ import { auth } from "../../../Firebase/Firebase.init";
 import { LuEye } from "react-icons/lu";
 import { FaEyeSlash } from "react-icons/fa";
 
-
-
 const Register = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const {  createUser, googleLogIn } = use(AuthContext);
+  const { createUser, googleLogIn } = use(AuthContext);
   // console.log(user);
 
   // Sign In using Email Password
@@ -28,12 +26,12 @@ const Register = () => {
     const email = data.email;
     const password = data.password;
     const profileImage = data.photo[0];
-    
-    console.log(profileImage)
+
+    console.log(profileImage);
     // const frameWork = data.framwork;
 
     createUser(email, password)
-      .then((res) => {
+      .then(() => {
         // add photo url and display name
 
         const formData = new FormData();
@@ -45,38 +43,53 @@ const Register = () => {
             formData
           )
           .then((res) => {
-            console.log(res.data.data.url);
+            // console.log(res.data.data.url);
 
-            //  update profile user profile to the firebase 
+            //  update profile user profile to the firebase
             const userProfile = {
               displayName: data.name,
               photoURL: res.data.data.url,
             };
+
+            // const userInfo = {
+            //   name: data.name,
+            //   email: data.email,
+            //   photoURL: res.data.data.url,
+            //   role: data.framwork,
+            // };
+
+            // //  users post Apis
+            // axios.post("http://localhost:3000/users", userInfo).then((res) => {
+            //   if (res.data.insertedId) {
+            //     navigate("/home");
+            //   } else {
+            //     navigate("/home");
+            //   }
+            // });
+
             updateProfile(auth.currentUser, userProfile)
               .then(() => {
-                
                 // send data to the database
-                // console.log(data);
+                console.log(data);
                 // console.log(user);
-
                 const userInfo = {
                   name: data.name,
                   email: data.email,
                   photoURL: res.data.data.url,
                   role: data.framwork,
-                }; 
-
+                };
                 //  users post Apis
                 axios.post("http://localhost:3000/users", userInfo)
                   .then((res) => {
-                    console.log(res.data);
+                    // console.log(res.data);
                     if (res.data.insertedId) {
                       navigate("/home");
                     } else {
-                      navigate("/home"); // user already exists → still allow login
+                      navigate("/home");
                     }
                   });
               })
+
               .catch((error) => {
                 console.log(error.message);
               });
@@ -86,8 +99,6 @@ const Register = () => {
         console.log(error.message);
         setError("this email is Already used");
       });
-
-    // now send the user info in the database
   };
 
   // Using Google Sign
@@ -101,7 +112,7 @@ const Register = () => {
           name: res.user.displayName,
           email: res.user.email,
           photoURL: res.user.photoURL,
-          role:"borrower"
+          role: "borrower",
         };
 
         axios.post("http://localhost:3000/users", userInfo).then((res) => {

@@ -23,7 +23,7 @@ const ManagerDashBoard = () => {
         }
     })
 
-    const totalApplication=application?.length
+    // const totalApplication=application?.length
 
     const approveApplication=application?.filter(a =>a.status==="Approved").length
     const pendingApplication=application?.filter(a =>a.status==="pending").length
