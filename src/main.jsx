@@ -23,11 +23,13 @@ import UpdatedLoan from "./Admin/UpdatedLoan/UpdatedLoan.jsx";
 import LoanApplication from "./Admin/LoanApplication/LoanApplication.jsx";
 import AddLoan from "./Manager/AddLoan/AddLoan.jsx";
 import ManageLoan from "./Manager/ManageLoan/ManageLoan.jsx";
-import UpdateLoan from "./Manager/UpdateLoan/UpdateLoan.jsx";
+// import UpdateLoan from "./Manager/UpdateLoan/UpdateLoan.jsx";
 import PendingLoan from "./Manager/PendingLoan/PendingLoan.jsx";
 import ApproveLoan from "./Manager/ApproveLoan/ApproveLoan.jsx";
 import Profile from "./Component/Profile/Profile.jsx";
 import UpdateUserStatus from "./Admin/UpdateUserStatus/UpdateUserStatus.jsx";
+import PaymentSuccess from "./Borrower/PaymentSuccess/PaymentSuccess.jsx";
+import ThemeProvider from "./Context/ThemeProvider/ThemeProvider.jsx";
 
 const queryClient = new QueryClient();
 
@@ -125,16 +127,22 @@ const router = createBrowserRouter([
           axios.get(`http://localhost:3000/users/${params.id}`),
         Component: UpdateUserStatus,
       },
+      {
+        path: "payment-success",
+        Component: PaymentSuccess,
+      },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />,
-      </AuthProvider>
-    </QueryClientProvider>
+    <ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <RouterProvider router={router} />,
+        </AuthProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   </StrictMode>
 );

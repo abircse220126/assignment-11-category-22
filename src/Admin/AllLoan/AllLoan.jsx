@@ -1,30 +1,53 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+// import axios from "axios";
 
 import { Link, NavLink } from "react-router";
 import DeleteModal from "../DeleteModal/DeleteModal";
 import { useState } from "react";
+import useAxios from "../../Hooks/useAxios";
 
 const AllLoan = () => {
   const [showModal, setshowModal] = useState(false);
   const [application, setApplication] = useState();
+  const instanceAxios = useAxios()
+
+  // const { data, refetch } = useQuery({
+  //   queryKey: ["loan", "application"],
+  //   queryFn: () => {
+  //     const result = axios.get("http://localhost:3000/loans");
+  //     return result;
+  //   },
+  // });
 
   const { data, refetch } = useQuery({
     queryKey: ["loan", "application"],
     queryFn: () => {
-      const result = axios.get("http://localhost:3000/loans");
+      const result = instanceAxios.get("/loans");
       return result;
     },
   });
+
   const loans = data?.data;
+
+  // const handleShowHome = (id, value) => {
+  //   const updateinfo = {
+  //     showHome: value,
+  //   };
+
+  //   axios
+  //     .patch(`http://localhost:3000/loans/show-no-home/${id}`, updateinfo)
+  //     .then(() => {
+  //       refetch();
+  //     });
+  // };
 
   const handleShowHome = (id, value) => {
     const updateinfo = {
       showHome: value,
     };
 
-    axios
-      .patch(`http://localhost:3000/loans/show-no-home/${id}`, updateinfo)
+    instanceAxios
+      .patch(`/loans/show-no-home/${id}`, updateinfo)
       .then(() => {
         refetch();
       });

@@ -1,29 +1,32 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext/AuthContext";
 
-import axios from "axios";
+
 import LoanCard from "../../../Pages/AllLoanPages/LoanCard";
 import Banner from "../Banner/Banner";
 import HowItWork from "../HowItWork/HowItWork";
 import Reviews from "../Reviews/Reviews";
+import useAxios from "../../../Hooks/useAxios";
 // import Reviews from "../Reviews/Reviews";
 const Home = () => {
   const [loans, setLoans] = useState([]);
+  const axiosInstance=useAxios()
 
   useEffect(() => {
-    axios.get("http://localhost:3000/loanscardhome").then((res) => {
+    axiosInstance.get("/loanscardhome").then((res) => {
       setLoans(res.data);
     });
   }, []);
+
+  // useEffect(()=>{
+  //   document.documentElement.setAttribute("data-theme","dark")
+  // },[])
 
   return (
     <>
       <div>
         <Banner></Banner>
       </div>
-
-
-
       <div>
         <div className="w-full py-20 bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a]">
           {/* ⭐ Your Grid Code (UNCHANGED) */}

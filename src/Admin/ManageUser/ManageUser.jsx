@@ -1,13 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+// import axios from "axios";
 import React, {} from "react";
 import { NavLink } from "react-router";
+import useAxios from "../../Hooks/useAxios";
 
 const ManageUser = () => {
+  const instanceAxios = useAxios()
+
+  // const { data } = useQuery({
+  //   queryKey: ["borrower", "pending"],
+  //   queryFn: () => {
+  //     const result = axios.get("http://localhost:3000/users");
+  //     return result;
+  //   },
+  // });
+
   const { data } = useQuery({
     queryKey: ["borrower", "pending"],
     queryFn: () => {
-      const result = axios.get("http://localhost:3000/users");
+      const result = instanceAxios.get("/users");
       return result;
     },
   });

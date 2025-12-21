@@ -3,40 +3,21 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
+import useAxios from "../../Hooks/useAxios";
 
 const UpdatedLoan = () => {
   const loan = useLoaderData();
   const loanId = loan.data._id;
   const { register, handleSubmit } = useForm();
-
-  //   const handleUpdateLoan = (event) => {
-  //     event.preventDefault();
-
-  //     // const form = event.target;
-  //     const title = event.target.title.value;
-  //     const description = event.target.description.value;
-  //     const interest = event.target.interest.value;
-  //     const loanLimit = event.target.loanlimit.value;
-  //     const emi = event.target.emi.value;
-  //     const loanImage = event.target.image.value;
-  //     const category = event.target.category.value;
-
-  //     console.log("title", title);
-  //     console.log("description", description);
-  //     console.log("interest", interest);
-  //     console.log("loanLimit", loanLimit);
-  //     console.log("emi", emi);
-  //     console.log("loan image", loanImage);
-  //     console.log("category", category);
-  //   };
+  const instanceAxios=useAxios()
 
   const handleUpdateLoan = (data) => {
-    const title = data.title;
-    const description = data.description;
-    const interest = data.interest;
-    const category = data.category;
-    const emi = data.emi;
-    const Loanimage = data.image[0];
+    const title = data.title; 
+    const description = data.description; 
+    const interest = data.interest; 
+    const category = data.category; 
+    const emi = data.emi;  
+    const Loanimage = data.image[0]; 
     const loanlimit = data.loanlimit;
 
     const formData = new FormData();
@@ -60,12 +41,11 @@ const UpdatedLoan = () => {
           loanImage,
           loanlimit,
         };
-        console.log(updateLoan);
+        
 
         //  now request for update loan
-
-        axios
-          .patch(`http://localhost:3000/updates/${loanId}`, updateLoan)
+        instanceAxios
+          .patch(`/updates/${loanId}`, updateLoan)
           .then(() => {
             // console.log(res.data)
 

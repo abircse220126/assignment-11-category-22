@@ -1,28 +1,55 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+// import axios from "axios";
 import React from "react";
+import useAxios from "../../Hooks/useAxios";
 
 const AdminDashboard = () => {
+  const instanceAxios = useAxios();
+
+  // const { data } = useQuery({
+  //   queryKey: ["borrower"],
+  //   queryFn: async () => {
+  //     const result = await axios.get(`http://localhost:3000/users`);
+  //     return result;
+  //   },
+  // });
+
   const { data } = useQuery({
     queryKey: ["borrower"],
     queryFn: async () => {
-      const result = await axios.get(`http://localhost:3000/users`);
+      const result = await instanceAxios.get(`/users`);
       return result;
     },
   });
+
+  // const { data: applications = [] } = useQuery({
+  //   queryKey: ["applications"],
+  //   queryFn: async () => {
+  //     const result = await axios.get(`http://localhost:3000/applicationform`);
+  //     return result;
+  //   },
+  // });
 
   const { data: applications = [] } = useQuery({
     queryKey: ["applications"],
     queryFn: async () => {
-      const result = await axios.get(`http://localhost:3000/applicationform`);
+      const result = await instanceAxios.get(`/applicationform`);
       return result;
     },
   });
 
+  // const { data: loans = [] } = useQuery({
+  //   queryKey: ["loans"],
+  //   queryFn: async () => {
+  //     const result = await axios.get(`http://localhost:3000/loans`);
+  //     return result;
+  //   },
+  // });
+
   const { data: loans = [] } = useQuery({
     queryKey: ["loans"],
     queryFn: async () => {
-      const result = await axios.get(`http://localhost:3000/loans`);
+      const result = await instanceAxios.get(`/loans`);
       return result;
     },
   });
@@ -67,10 +94,7 @@ const AdminDashboard = () => {
       <div className="flex justify-between items-center">
         <div className="text-center flex items-center justify-center">
           <h1 className="text-2xl font-semibold "> Dashboard</h1>
-        
         </div>
-
-
       </div>
 
       {/* ===== KPI CARDS ===== */}

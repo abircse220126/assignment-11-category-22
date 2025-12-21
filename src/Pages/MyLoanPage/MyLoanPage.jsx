@@ -1,25 +1,27 @@
 import React, { use, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+// import axios from "axios";
 import DetailsModal from "../../Admin/detailsModal/detailsModal";
 import CancelLoan from "../CancelLoan/CancelLoan";
-// import CancelLoanModal from "../CancelLoanModal/CancelLoanModal";
+import useAxios from "../../Hooks/useAxios";
 
 const MyLoanPage = () => {
   const { user } = use(AuthContext);
+
   const [showModal, setShowModal] = useState(false);
   const [application, setApplication] = useState(null);
 
-  const [CancelModal , setcancelModal]=useState(false)
-  const [applicationId , setApplicationId]=useState(null)
+  const [CancelModal, setcancelModal] = useState(false);
+  const [applicationId, setApplicationId] = useState(null);
+  const instanceAxios = useAxios();
 
-  const { data , refetch } = useQuery({
+  console.log(user);
+
+  const { data, refetch } = useQuery({
     queryKey: ["MyLoan", user?.email],
     queryFn: async () => {
-      const result = await axios.get(
-        `http://localhost:3000/application/${user.email}`
-      );
+      const result = await instanceAxios.get(`/application/${user.email}`);
       return result;
     },
   });
@@ -30,11 +32,48 @@ const MyLoanPage = () => {
   );
 
   const handleCancle = (id) => {
-
-    setcancelModal(true)
-    setApplicationId(id)
-    
+    setcancelModal(true);
+    setApplicationId(id);
   };
+
+  // const handlePay =async ()=>{
+
+  //   const paymentInfo={
+  //     name:user.name,
+  //     email:user.email,
+  //     userId:user._id,
+
+  //   }
+  //   const res = await instanceAxios.post('/create-checkout-session', paymentInfo)
+  //   console.log(res.data)
+
+  //   window.location.href = res.data.url;
+  // }
+
+  const handlePay = async (id) => {
+    console.log(id);
+
+    // if (!user?.email) {
+    //   alert("User not loaded yet");
+    //   return;
+    // }
+
+    const paymentInfo = {
+      name:user.displayName,
+      email: user.email,
+      loanId: id,
+    };
+
+    console.log(paymentInfo);
+
+    const res = await instanceAxios.post(
+      "/create-checkout-session",
+      paymentInfo
+    );
+
+    window.location.assign(res.data.url);
+  };
+
   return (
     <div className="p-4 md:p-6">
       <h2 className="text-center text-2xl font-bold mb-6">This is My Loan</h2>
@@ -63,23 +102,20 @@ const MyLoanPage = () => {
           </thead>
 
           <tbody>
-
             {showModal && (
               <DetailsModal
                 data={application}
                 onClose={() => setShowModal(false)}
               />
             )}
-            
-            {
-              CancelModal &&
-               <CancelLoan
-               data={applicationId}
-               onClose={()=>setcancelModal(false)}
-               refetch={refetch}
+
+            {CancelModal && (
+              <CancelLoan
+                data={applicationId}
+                onClose={() => setcancelModal(false)}
+                refetch={refetch}
               ></CancelLoan>
-            }
-           
+            )}
 
             {loanData?.map((loan) => (
               <tr
@@ -120,13 +156,17 @@ const MyLoanPage = () => {
                     </button>
 
                     {loan.status.toLowerCase() === "pending".toLowerCase() && (
-                      <button 
-                      onClick={()=>handleCancle(loan._id)}
-                      className="px-3 py-2 text-sm rounded-md bg-red-100 text-red-700 hover:bg-red-200">
+                      <button
+                        onClick={() => handleCancle(loan._id)}
+                        className="px-3 py-2 text-sm rounded-md bg-red-100 text-red-700 hover:bg-red-200"
+                      >
                         Cancel
                       </button>
                     )}
-                    <button className="px-3 py-1.5 text-sm rounded-md bg-green-100 text-green-700 hover:bg-green-200">
+                    <button
+                      onClick={() => handlePay(loan._id)}
+                      className="px-3 py-1.5 text-sm rounded-md bg-green-100 text-green-700 hover:bg-green-200"
+                    >
                       Pay
                     </button>
                   </div>
@@ -193,7 +233,10 @@ const MyLoanPage = () => {
                 </button>
               )}
 
-              <button className="flex-1 px-3 py-2 text-sm rounded-md bg-green-100 text-green-700 hover:bg-green-200">
+              <button
+                onClick={handlePay}
+                className="flex-1 px-3 py-2 text-sm rounded-md bg-green-100 text-green-700 hover:bg-green-200"
+              >
                 Pay
               </button>
             </div>

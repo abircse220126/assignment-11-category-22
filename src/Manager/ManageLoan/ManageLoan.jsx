@@ -1,22 +1,31 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+// import axios from "axios";
 import React, { useState } from "react";
 import { NavLink } from "react-router";
 import DeleteModal from "../../Admin/DeleteModal/DeleteModal";
+import useAxios from "../../Hooks/useAxios";
 
 const ManageLoan = () => {
   const [statusFilter, setStatusFilter] = useState("All");
   const [showModal, setshowModal] = useState(false);
   const [application, setApplication] = useState();
+  const instanceAxios = useAxios()
+
+  // const { data, refetch } = useQuery({
+  //   queryKey: ["allLoans"],
+  //   queryFn: () => {
+  //     const result = axios.get(`http://localhost:3000/loans`);
+  //     return result;
+  //   },
+  // });
 
   const { data, refetch } = useQuery({
     queryKey: ["allLoans"],
     queryFn: () => {
-      const result = axios.get(`http://localhost:3000/loans`);
+      const result = instanceAxios.get(`/loans`);
       return result;
     },
   });
-
   const loans = data?.data;
 
   const categories = [...new Set(loans?.map((loan) => loan.loanCategory))];

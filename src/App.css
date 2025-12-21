@@ -1,2 +1,75 @@
 @import "tailwindcss";
 @plugin "daisyui";
+ /* @plugin "daisyui" {
+   themes: light --default
+ } */
+
+/* Dark Mode Styles */
+
+/* Dark Mode Styles */
+[data-theme="dark"] {
+  /* Colors / Variables */
+  --bg-color: #1e1e2f;
+  --text-color: #e0e0e0;
+  --primary-color: #4f46e5;
+  --secondary-color: #3b82f6;
+  --button-bg: #374151;
+  --button-text: #ffffff;
+  --input-bg: #2d2d3d;
+  --input-text: #e0e0e0;
+  --card-bg: #2a2a3d;
+  --card-border: #44475a;
+  --hover-color: #5750f0;
+
+  /* Body */
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+  }
+
+  /* Buttons */
+  button {
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    background-color: var(--hover-color);
+  }
+
+  /* Inputs and Textareas */
+  input,
+  textarea {
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    border: 1px solid var(--card-border);
+    padding: 8px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  /* Cards */
+  .card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 16px;
+    transition: all 0.3s ease;
+  }
+
+  /* Links */
+  a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--secondary-color);
+  }
+}

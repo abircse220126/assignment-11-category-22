@@ -1,9 +1,20 @@
-import axios from "axios";
+// import axios from "axios";
 import React from "react";
+import useAxios from "../../Hooks/useAxios";
 
 const DeleteModal = ({ id, onClose , refetch }) => {
+  const instanceAxios = useAxios()
+  
+  // const handdleDelete = (id) => {
+  //   axios.delete(`http://localhost:3000/loan/delete/${id}`).then((res) => {
+  //     console.log(res.data);
+  //     refetch();
+  //     onClose()
+  //   });
+  // };
+
   const handdleDelete = (id) => {
-    axios.delete(`http://localhost:3000/loan/delete/${id}`).then((res) => {
+    instanceAxios.delete(`/loan/delete/${id}`).then((res) => {
       console.log(res.data);
       refetch();
       onClose()

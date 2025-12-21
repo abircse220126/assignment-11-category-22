@@ -1,35 +1,53 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+// import axios from "axios";
 import React, { useState } from "react";
 import DetailsModal from "../../Admin/detailsModal/detailsModal";
+import useAxios from "../../Hooks/useAxios";
 
 const PendingLoan = () => {
   const [showModal, setShowModal] = useState(false);
   const [application, setApplication] = useState(null);
+  const instanceAxios = useAxios()
+
+  // const { data, refetch } = useQuery({
+  //   queryKey: ["PendingApplications"],
+  //   queryFn: async () => {
+  //     const result = await axios.get(`http://localhost:3000/applicationform`);
+  //     return result.data;
+  //   },
+  // });
+
   const { data, refetch } = useQuery({
     queryKey: ["PendingApplications"],
     queryFn: async () => {
-      const result = await axios.get(`http://localhost:3000/applicationform`);
+      const result = await instanceAxios.get(`/applicationform`);
       return result.data;
     },
   });
 
+
+  // const handleApprove = (id) => {
+  //   const updateInfo = { status: "Approved" };
+  //   axios
+  //     .patch(`http://localhost:3000/application/status/${id}`, updateInfo)
+  //     .then(() => refetch());
+  // };
+
   const handleApprove = (id) => {
     const updateInfo = { status: "Approved" };
-    axios
-      .patch(`http://localhost:3000/application/status/${id}`, updateInfo)
+    instanceAxios
+      .patch(`/application/status/${id}`, updateInfo)
       .then(() => refetch());
   };
 
   const handleReject = (id) => {
     const updateInfo = { status: "Rejected" };
-    axios
-      .patch(`http://localhost:3000/application/status/${id}`, updateInfo)
+    instanceAxios
+      .patch(`/application/status/${id}`, updateInfo)
       .then(() => refetch());
   };
 
-  const pendingLoan = data?.filter((d) => d.status === "Pending".toLowerCase());
-
+  const pendingLoan = data?.filter((d) => d.status === "Pending");
   return (
     <table className="w-full border border-gray-200 text-sm">
       <caption className="text-3xl mb-5">All Pending loan</caption>

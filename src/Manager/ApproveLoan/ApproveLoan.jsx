@@ -1,18 +1,32 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+// import axios from "axios";
 import React, { useState } from "react";
 import DetailsModal from "../../Admin/detailsModal/detailsModal";
+import useAxios from "../../Hooks/useAxios";
 
 const ApproveLoan = () => {
   const [showModal, setShowModal] = useState(false);
   const [application, setApplication] = useState(null);
+  const instanceAxios=useAxios()
+
+  // const { data, } = useQuery({
+  //   queryKey: ["loan", "application"],
+  //   queryFn: () => {
+  //     const result = axios.get("http://localhost:3000/applicationform");
+  //     return result;
+  //   },
+  // });
+
   const { data, } = useQuery({
     queryKey: ["loan", "application"],
     queryFn: () => {
-      const result = axios.get("http://localhost:3000/applicationform");
+      const result = instanceAxios.get("/applicationform");
       return result;
     },
   });
+
+
+
   const loans = data?.data;
   const approveLoans=loans?.filter(loan =>loan.status==="Approved")
   // console.log(approveLoans)

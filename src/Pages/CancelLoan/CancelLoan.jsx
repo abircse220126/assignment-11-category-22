@@ -1,12 +1,20 @@
-import axios from "axios";
+// import axios from "axios";
 import React from "react";
+import useAxios from "../../Hooks/useAxios";
 
 const CancelLoan = ({ data, onClose , refetch }) => {
-
+  const instanceAxios= useAxios()
     const handleCancel=(id)=>{
-        // console.log("handle button is clicked" , id)
+       
+    //     axios.delete(`http://localhost:3000/application/${id}`)
+    //     .then(res =>{
+    //         console.log(res.data)
+    //         onClose()
+    //         refetch()
+    //     })
+    // }
 
-        axios.delete(`http://localhost:3000/application/${id}`)
+        instanceAxios.delete(`/application/${id}`)
         .then(res =>{
             console.log(res.data)
             onClose()

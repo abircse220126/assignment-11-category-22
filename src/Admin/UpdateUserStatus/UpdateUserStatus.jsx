@@ -1,26 +1,41 @@
 
 
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+// import axios from "axios";
 import React, { useState } from "react";
 import { useLoaderData } from "react-router";
+import useAxios from "../../Hooks/useAxios";
 
 const UpdateUserStatus = () => {
+  const instanceAxios=useAxios()
     const[approve , setApprove]=useState(false)
     const [suspend , setSuspend]=useState(false)
   const response = useLoaderData();
   const initialUser = response.data;
 
+  // const { data, refetch, isLoading } = useQuery({
+  //   queryKey: ["user", initialUser._id],
+  //   queryFn: async () => {
+  //     const res = await axios.get(
+  //       `http://localhost:3000/users/${initialUser._id}`
+  //     );
+  //     return res.data;
+  //   },
+  //   initialData: initialUser, 
+  // });
+
+
   const { data, refetch, isLoading } = useQuery({
     queryKey: ["user", initialUser._id],
     queryFn: async () => {
-      const res = await axios.get(
-        `http://localhost:3000/users/${initialUser._id}`
+      const res = await instanceAxios.get(
+        `/users/${initialUser._id}`
       );
       return res.data;
     },
     initialData: initialUser, 
   });
+
 
   const user = data;
 
@@ -28,20 +43,34 @@ const UpdateUserStatus = () => {
 
     setApprove(true)
     setSuspend(false)
-    await axios.patch(`http://localhost:3000/user/update/${user._id}`, {
+
+    // await axios.patch(`http://localhost:3000/user/update/${user._id}`, {
+    //   status: "Approved",
+    // });
+    // refetch(); 
+
+    await instanceAxios.patch(`/user/update/${user._id}`, {
       status: "Approved",
     });
     refetch(); 
+
   };
 
   const handleSuspend = async () => {
 
     setSuspend(true)
     setApprove(false)
-    await axios.patch(`http://localhost:3000/user/update/${user._id}`, {
+
+    // await axios.patch(`http://localhost:3000/user/update/${user._id}`, {
+    //   status: "Suspended",
+    // });
+    // refetch(); 
+
+    await instanceAxios.patch(`/user/update/${user._id}`, {
       status: "Suspended",
     });
     refetch(); 
+
   };
 
   

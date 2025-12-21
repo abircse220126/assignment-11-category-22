@@ -2,10 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import useAxios from "../../Hooks/useAxios";
 
 const AddLoan = () => {
   const [showHome, setShowhome] = useState(false);
   const { register, handleSubmit } = useForm();
+  const instanceAxios = useAxios()
 
   const handleShowHome = () => {
     setShowhome(!showHome);
@@ -47,7 +49,7 @@ const AddLoan = () => {
           showHome,
         };
 
-        axios.post(`http://localhost:3000/loans`, loanInfo).then((res) => {
+        instanceAxios.post(`/loans`, loanInfo).then((res) => {
           console.log(res.data);
           //    here add the confarmation pop up
 
@@ -63,6 +65,22 @@ const AddLoan = () => {
                 left top  no-repeat`,
           });
         });
+
+        //   console.log(res.data);
+        //   //    here add the confarmation pop up
+
+        //   Swal.fire({
+        //     title: "New Loan is Added ",
+        //     width: 600,
+        //     padding: "3em",
+        //     color: "#716add",
+        //     background: "#fff url(/images/trees.png)",
+        //     backdrop: `
+        //         rgba(0,0,123,0.4)
+        //         url("/images/nyan-cat.gif")
+        //         left top  no-repeat`,
+        //   });
+        // });
       });
   };
 

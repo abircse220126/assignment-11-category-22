@@ -1,13 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+// import axios from "axios";
 import React from "react";
+import useAxios from "../../Hooks/useAxios";
 
 const ManagerDashBoard = () => {
+  const instanceAxios = useAxios()
 
+    // const {data:totalLoan}=useQuery({
+    //     queryKey:["lmanageLoan"],
+    //     queryFn:async()=>{
+    //         const result= await axios.get(`http://localhost:3000/loans`)
+    //         return result.data
+    //     }
+
+    // })
+    
     const {data:totalLoan}=useQuery({
         queryKey:["lmanageLoan"],
         queryFn:async()=>{
-            const result= await axios.get(`http://localhost:3000/loans`)
+            const result= await instanceAxios.get(`/loans`)
             return result.data
         }
 
@@ -18,7 +29,7 @@ const ManagerDashBoard = () => {
     const{data:application}=useQuery({
         queryKey:["approveApplication"],
         queryFn:async()=>{
-            const result = await axios.get(`http://localhost:3000/applicationform`)
+            const result = await instanceAxios.get(`/applicationform`)
             return result.data
         }
     })

@@ -1,20 +1,31 @@
-import axios from "axios";
+// import axios from "axios";
 import React, { use } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Context/AuthContext/AuthContext";
 import { useQuery } from "@tanstack/react-query";
+import useAxios from "../../Hooks/useAxios";
 
 const LoanFormPage = () => {
   const loanData = useLoaderData().data;
+  const instanceAxios=useAxios()
 
   const { user, SignoutUser } = use(AuthContext);
+
+  // const { data } = useQuery({
+  //   queryKey: ["allLoans", user?.email],
+  //   queryFn: () => {
+  //     const result = axios.get(`http://localhost:3000/loans`);
+  //     return result.data;
+  //   },
+  // });
+  
 
   const { data } = useQuery({
     queryKey: ["allLoans", user?.email],
     queryFn: () => {
-      const result = axios.get(`http://localhost:3000/loans`);
+      const result = instanceAxios.get(`/loans`);
       return result.data;
     },
   });
@@ -63,8 +74,8 @@ const LoanFormPage = () => {
       national_id,
       status,
     };
-    axios
-      .post("http://localhost:3000/applicationform", applicationInfo)
+    instanceAxios
+      .post("/applicationform", applicationInfo)
       .then((res) => {
         console.log(res.data);
         Swal.fire({
