@@ -22,7 +22,7 @@ const Profile = () => {
 
   const profile = data;
 
-  console.log(profile);
+  // console.log(profile);
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">

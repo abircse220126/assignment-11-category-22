@@ -30,6 +30,13 @@ import Profile from "./Component/Profile/Profile.jsx";
 import UpdateUserStatus from "./Admin/UpdateUserStatus/UpdateUserStatus.jsx";
 import PaymentSuccess from "./Borrower/PaymentSuccess/PaymentSuccess.jsx";
 import ThemeProvider from "./Context/ThemeProvider/ThemeProvider.jsx";
+import AboutUs from "./Pages/AboutUs/AboutUs.jsx";
+import Services from "./Pages/Services/Services.jsx";
+import ContactUs from "./Pages/ContactUs/ContactUs.jsx";
+import Faq from "./Pages/FAQ/Faq.jsx";
+import ExtraSection from "./Component/HomePage/ExtraSection/ExtraSection.jsx";
+import PrivateRoute from "./Route/PrivateRoute/PrivateRoute.jsx";
+// import AboutUs from "./Pages/AboutUs/AboutUs.jsx";
 
 const queryClient = new QueryClient();
 
@@ -56,11 +63,25 @@ const router = createBrowserRouter([
         Component: AllLoanPages,
       },
 
+      // {
+      //   path: "/view-details/:id",
+      //   loader: ({ params }) =>
+      //     axios.get(`http://localhost:3000/loan/${params.id}`),
+      //   // Component: ViewDetails,
+      //   element:(<PrivateRoute>
+      //     <ViewDetails></ViewDetails>
+      //   </PrivateRoute>)
+      // },
       {
         path: "/view-details/:id",
         loader: ({ params }) =>
           axios.get(`http://localhost:3000/loan/${params.id}`),
-        Component: ViewDetails,
+
+        element: (
+          <PrivateRoute>
+            <ViewDetails />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/loan-form/:id",
@@ -68,12 +89,33 @@ const router = createBrowserRouter([
           axios.get(`http://localhost:3000/loan/${params.id}`),
         Component: LoanFormPage,
       },
+      {
+        path: "/about-us",
+        Component: AboutUs,
+      },
+      {
+        path: "/services",
+        Component: Services,
+      },
+      {
+        path: "/contact-us",
+        Component: ContactUs,
+      },
+      {
+        path: "/faq",
+        Component: Faq,
+      },
     ],
   },
 
   {
     path: "dashboard",
-    Component: DashBoardLayout,
+    // Component: DashBoardLayout,
+    element: (
+      <PrivateRoute>
+        <DashBoardLayout></DashBoardLayout>
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,

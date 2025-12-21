@@ -1,19 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import React, { use, useState } from "react";
+// import axios from "axios";
+import React, { use} from "react";
 import { AuthContext } from "../../Context/AuthContext/AuthContext";
 import ApproveLoan from "../../Manager/ApproveLoan/ApproveLoan";
 import { NavLink } from "react-router";
 import CancelLoan from "../../Pages/CancelLoan/CancelLoan";
 import DetailsModal from "../../Admin/detailsModal/detailsModal";
+import useAxios from "../../Hooks/useAxios";
 
 const BorrowerDashBoard = () => {
   const { user } = use(AuthContext);
+  const instanceAxios = useAxios()
   const { data } = useQuery({
     queryKey: ["MyLoan", user?.email],
     queryFn: async () => {
-      const result = await axios.get(
-        `http://localhost:3000/application/${user.email}`
+      const result = await instanceAxios.get(
+        `/application/${user.email}`
       );
       return result;
     },
@@ -33,11 +35,11 @@ const BorrowerDashBoard = () => {
     return sum + (isNaN(cleanAmount) ? 0 : cleanAmount);
   }, 0);
 
-  const handleModal = (id)=>{
-    // console.log("modal Clicked" ,id)
-    setShowModal(true)
-    setApplication(id)
-  }
+  // const handleModal = (id)=>{
+  //   // console.log("modal Clicked" ,id)
+  //   setShowModal(true)
+  //   setApplication(id)
+  // }
 
   return (
     <div className="min-h-screen bg-slate-100 p-6 lg:p-10 space-y-10">

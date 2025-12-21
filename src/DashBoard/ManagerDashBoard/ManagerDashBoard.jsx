@@ -21,7 +21,6 @@ const ManagerDashBoard = () => {
             const result= await instanceAxios.get(`/loans`)
             return result.data
         }
-
     })
    
     const totalLoanLength=totalLoan?.length

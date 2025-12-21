@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthContext/AuthContext";
 
-
 import LoanCard from "../../../Pages/AllLoanPages/LoanCard";
 import Banner from "../Banner/Banner";
 import HowItWork from "../HowItWork/HowItWork";
 import Reviews from "../Reviews/Reviews";
 import useAxios from "../../../Hooks/useAxios";
+import { Link } from "react-router";
+import ExtraSection from "../ExtraSection/ExtraSection";
 // import Reviews from "../Reviews/Reviews";
 const Home = () => {
   const [loans, setLoans] = useState([]);
-  const axiosInstance=useAxios()
+  const axiosInstance = useAxios();
 
   useEffect(() => {
     axiosInstance.get("/loanscardhome").then((res) => {
       setLoans(res.data);
     });
   }, []);
-
-  // useEffect(()=>{
-  //   document.documentElement.setAttribute("data-theme","dark")
-  // },[])
 
   return (
     <>
@@ -66,8 +63,11 @@ const Home = () => {
                     </p>
                   </div>
 
-                  <button className="w-full mt-2 bg-indigo-600 text-white py-1.5 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                  {/* <button className="w-full mt-2 bg-indigo-600 text-white py-1.5 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
                     View Details
+                  </button> */}
+                  <button className="w-full mt-2 bg-indigo-600 text-white py-1.5 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                    <Link to={`/view-details/${loan._id}`}>View Details</Link>
                   </button>
                 </div>
               </div>
@@ -83,6 +83,9 @@ const Home = () => {
 
       <div>
         <Reviews></Reviews>
+      </div>
+      <div>
+        <ExtraSection></ExtraSection>
       </div>
     </>
   );

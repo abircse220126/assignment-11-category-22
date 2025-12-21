@@ -10,9 +10,7 @@ const AllLoanPages = () => {
   useEffect(() => {
     instanceAxios.get("/loans")
     .then((res) => {
-      // console.log(res.data)
       setLoans(res.data);
-      
     });
   }, []);
 

@@ -3,10 +3,12 @@ import React from "react";
 import { Outlet } from "react-router";
 import SideBar from "../../DashBoard/SideBar/SideBar";
 import DashBoardNavbar from "../../DashBoard/DashboardNavbar/DashBoardNavbar";
+import Footer from "../../Pages/Footer/Footer";
 
 const DashBoardLayout = () => {
   return (
-    <div className="grid grid-cols-12 min-h-screen">
+   <div>
+     <div className="grid grid-cols-12 min-h-screen">
 
       {/* Sidebar – hidden on mobile */}
       <div className="hidden md:block md:col-span-2 bg-white ">
@@ -23,8 +25,9 @@ const DashBoardLayout = () => {
           <Outlet />
         </div>
       </div>
-
     </div>
+    <Footer></Footer>
+   </div>
   );
 };
 

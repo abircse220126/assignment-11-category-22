@@ -18,7 +18,7 @@ const ViewDetails = () => {
     _id
   } = loan.data
 
-  console.log(_id)
+  // console.log(_id)
   
 
   return (

@@ -8,7 +8,8 @@ const DashBoardNavbar = () => {
   const { user, SignoutUser } = use(AuthContext);
   const { dark, setdark } = use(ThemeContext);
 
-  console.log(user?.photoURL);
+  // console.log(user?.photoURL);
+
   const link_1 = (
     <>
       <li>
@@ -21,11 +22,11 @@ const DashBoardNavbar = () => {
       </li>
       <li>
         {" "}
-        <a>About Us</a>{" "}
+        <Link to="/about-us">About Us</Link>{" "}
       </li>
       <li>
         {" "}
-        <a>Contact</a>{" "}
+        <Link to="/contact-us">Contact</Link>{" "}
       </li>
     </>
   );

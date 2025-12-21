@@ -4,7 +4,8 @@ import { FaEyeSlash } from "react-icons/fa";
 import { LuEye } from "react-icons/lu";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../../../Context/AuthContext/AuthContext";
-import axios from "axios";
+// import axios from "axios";
+import useAxios from "../../../Hooks/useAxios";
 
 const Login = () => {
   const {
@@ -14,6 +15,7 @@ const Login = () => {
   } = useForm();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const instanceAxios=useAxios()
 
   const { googleSignIn, googleLogIn } = use(AuthContext);
   const navigate = useNavigate();
@@ -66,7 +68,7 @@ const Login = () => {
           role:"borrower"
         };
 
-        axios.post("http://localhost:3000/users", userInfo).then((res) => {
+        instanceAxios.post("/users", userInfo).then((res) => {
           console.log(res.data);
           if (res.data.insertedId) {
             console.log("user is created");
@@ -82,7 +84,7 @@ const Login = () => {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-white">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black text-black">
       {" "}
       {/* === Dynamic 3D Cubes Background === */}
       <div className="absolute inset-0 overflow-hidden perspective-[1000px]">
@@ -106,14 +108,14 @@ const Login = () => {
           <h2 className="text-2xl font-bold mb-4 text-center">WelCome Back</h2>
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <div className="card-body">
+          <div className="card-body text-black">
             <form onSubmit={handleSubmit(handleLogin)}>
               <fieldset className="fieldset">
                 {/* Name Field*/}
 
                 {/* Email Field */}
                 <div>
-                  <label className="block mb-1 text-xs font-medium">
+                  <label className="block mb-1 text-xs font-medium text-black">
                     Email
                   </label>
                   <input
@@ -195,7 +197,7 @@ const Login = () => {
             Login with Google
           </button>
 
-          <p className="text-xs text-center mt-5 text-gray-300 pb-5">
+          <p className="text-xs text-center mt-5 text-gray-300 pb-5 text-black">
             Create an New account?{" "}
             <span className="text-fuchsia-400 hover:underline cursor-pointer">
               <Link to="/">signup</Link>

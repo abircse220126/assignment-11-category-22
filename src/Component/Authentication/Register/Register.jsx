@@ -7,6 +7,7 @@ import { updateProfile } from "firebase/auth";
 import { auth } from "../../../Firebase/Firebase.init";
 import { LuEye } from "react-icons/lu";
 import { FaEyeSlash } from "react-icons/fa";
+import useAxios from "../../../Hooks/useAxios";
 
 const Register = () => {
   const [error, setError] = useState("");
@@ -19,7 +20,7 @@ const Register = () => {
   } = useForm();
 
   const { createUser, googleLogIn } = use(AuthContext);
-  // console.log(user);
+  const instanceAxios=useAxios()
 
   // Sign In using Email Password
   const handleRegiser = (data) => {
@@ -79,7 +80,7 @@ const Register = () => {
                   role: data.framwork,
                 };
                 //  users post Apis
-                axios.post("http://localhost:3000/users", userInfo)
+                instanceAxios.post("/users", userInfo)
                   .then((res) => {
                     // console.log(res.data);
                     if (res.data.insertedId) {
@@ -115,7 +116,7 @@ const Register = () => {
           role: "borrower",
         };
 
-        axios.post("http://localhost:3000/users", userInfo).then((res) => {
+        instanceAxios.post("/users", userInfo).then((res) => {
           console.log(res.data);
           if (res.data.insertedId) {
             console.log("user is created");
@@ -173,10 +174,10 @@ const Register = () => {
             Create an Account
           </h2>
         </div>
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl text-black">
           <div className="card-body">
-            <form onSubmit={handleSubmit(handleRegiser)}>
-              <fieldset className="fieldset">
+            <form onSubmit={handleSubmit(handleRegiser)} className="border-red-500">
+              <fieldset className="fieldset border-red-600">
                 {/* Name Field*/}
                 <div>
                   <label className="block mb-1 text-xs font-medium">

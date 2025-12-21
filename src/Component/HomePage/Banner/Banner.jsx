@@ -24,7 +24,7 @@ const Banner = () => {
         <div className="mt-8 flex gap-4">
           {/* Primary Button */}
           <Link
-            to="/loan-application"
+            to="/all-loan"
             className="px-7 py-3 rounded-xl text-lg font-semibold 
             bg-indigo-600/90 backdrop-blur-md shadow-lg
             hover:bg-indigo-700 hover:shadow-xl transition-all duration-300
@@ -35,7 +35,7 @@ const Banner = () => {
 
           {/* Secondary Button */}
           <Link
-            to="/loans"
+            to="/all-loan"
             className="px-7 py-3 rounded-xl text-lg font-semibold
             bg-white/20 backdrop-blur-lg border border-white/40 shadow-md 
             text-white hover:bg-white/30 hover:shadow-xl transition-all duration-300
